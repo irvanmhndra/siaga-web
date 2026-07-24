@@ -102,6 +102,17 @@ export function useScheduleMutations() {
       mutationFn: (id: string) => api.delete(`/schedules/${id}`),
       onSuccess: invalidate,
     }),
+    // invalidate ['schedules'] also refreshes ['schedules', id] (prefix match).
+    addOverride: useMutation({
+      mutationFn: (v: { scheduleId: string; body: { user_id: string; start_at: string; end_at: string } }) =>
+        api.post(`/schedules/${v.scheduleId}/overrides`, v.body),
+      onSuccess: invalidate,
+    }),
+    deleteOverride: useMutation({
+      mutationFn: (v: { scheduleId: string; overrideId: string }) =>
+        api.delete(`/schedules/${v.scheduleId}/overrides/${v.overrideId}`),
+      onSuccess: invalidate,
+    }),
   }
 }
 

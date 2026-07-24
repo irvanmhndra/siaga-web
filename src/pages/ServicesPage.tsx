@@ -11,6 +11,7 @@ const empty = {
   escalation_policy_id: '',
   status: 'active',
   auto_resolve_minutes: '',
+  ack_timeout_minutes: '',
   slack_webhook_url: '',
 }
 
@@ -38,6 +39,7 @@ export default function ServicesPage() {
       escalation_policy_id: s.escalation_policy_id ?? '',
       status: s.status,
       auto_resolve_minutes: s.auto_resolve_minutes ? String(s.auto_resolve_minutes) : '',
+      ack_timeout_minutes: s.ack_timeout_minutes ? String(s.ack_timeout_minutes) : '',
       slack_webhook_url: s.slack_webhook_url ?? '',
     })
     setError('')
@@ -53,6 +55,7 @@ export default function ServicesPage() {
       escalation_policy_id: form.escalation_policy_id || null,
       status: form.status,
       auto_resolve_minutes: form.auto_resolve_minutes ? Number(form.auto_resolve_minutes) : null,
+      ack_timeout_minutes: form.ack_timeout_minutes ? Number(form.ack_timeout_minutes) : null,
       slack_webhook_url: form.slack_webhook_url || null,
     }
     try {
@@ -143,6 +146,16 @@ export default function ServicesPage() {
                 onChange={(e) => setForm({ ...form, auto_resolve_minutes: e.target.value })}
               />
             </div>
+          </div>
+          <div>
+            <label className="label">Ack timeout (min)</label>
+            <input
+              type="number"
+              className="input"
+              placeholder="optional — re-escalate if acked but not resolved in time"
+              value={form.ack_timeout_minutes}
+              onChange={(e) => setForm({ ...form, ack_timeout_minutes: e.target.value })}
+            />
           </div>
           <div>
             <label className="label">Slack webhook URL</label>
